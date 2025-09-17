@@ -71,7 +71,11 @@
 
             <users-address-field [type]="addressTypes.CITY" formControlName="city"/>
 
-            <users-edit-storypoints></users-edit-storypoints>
+            <users-edit-storypoints 
+              [totalStoryPoints]="user?.totalStoryPoints ?? 0"
+              (confirmPoints)="updateStoryPoints({ id: user!.id, totalStoryPoints: $event })"
+              >
+            </users-edit-storypoints>
 
           </div>
           <mat-card-actions class="edit-user-btns-container" *ngIf="vm.editMode">

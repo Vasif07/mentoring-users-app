@@ -1,5 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,13 +16,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Store } from '@ngrx/store';
-import { filter } from 'rxjs';
-
-import { UserEntity } from '@users/shared/data-access-models';
-import * as UsersActions from '@users/users/state/users.actions';
-import { UsersState } from '@users/users/state/users.reducer';
-import { selectOpenedUser } from '@users/users/state/users.selectors';
 
 @Component({
   selector: 'users-edit-storypoints',
@@ -31,13 +33,10 @@ import { selectOpenedUser } from '@users/users/state/users.selectors';
     MatIconModule,
   ],
 })
-export class EditStorypointsComponent {
-  private readonly store = inject<Store<UsersState>>(Store);
+export class EditStorypointsComponent implements OnChanges {
+  @Input() totalStoryPoints = 0;
   private readonly snackBar = inject(MatSnackBar);
-
-  private openedUserId: number | null = null;
   public editing = false;
-
   public formgroup = new FormGroup({
     totalStoryPoints: new FormControl<number | null>({ value: null, disabled: true }, [
       Validators.required,
@@ -45,19 +44,15 @@ export class EditStorypointsComponent {
       Validators.pattern(/^\d+$/),
     ]),
   });
+  @Output() confirmPoints = new EventEmitter<number>();
 
-  constructor() {
-    this.store
-      .select(selectOpenedUser)
-      .pipe(filter((u): u is UserEntity => !!u))
-      .subscribe((user) => {
-        this.openedUserId = user.id;
-        if (!this.editing) {
-          this.totalStoryPointsControl.setValue(user.totalStoryPoints ?? 0);
-          this.totalStoryPointsControl.disable();
-        }
-      });
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['totalStoryPoints'] && !this.editing) {
+      this.totalStoryPointsControl.setValue(this.totalStoryPoints ?? 0);
+      this.totalStoryPointsControl.disable();
+    }
   }
+
   get totalStoryPointsControl(): FormControl<number | null> {
     return this.formgroup.get('totalStoryPoints') as FormControl<number | null>;
   }
@@ -68,10 +63,10 @@ export class EditStorypointsComponent {
   }
 
   confirm() {
-    if (!this.formgroup.valid || this.openedUserId === null) return;
+    if (!this.formgroup.valid) return;
 
     const points = this.totalStoryPointsControl.value!;
-    this.store.dispatch(UsersActions.updateStoryPoints({ id: this.openedUserId, totalStoryPoints: points }));
+    this.confirmPoints.emit(points);
 
     this.editing = false;
     this.totalStoryPointsControl.disable();
@@ -81,15 +76,7 @@ export class EditStorypointsComponent {
 
   cancel() {
     this.editing = false;
-    if (this.openedUserId !== null) {
-      this.store
-        .select(selectOpenedUser)
-        .pipe(filter((u): u is UserEntity => !!u))
-        .subscribe((user) => {
-          this.totalStoryPointsControl.setValue(user.totalStoryPoints ?? 0);
-          this.totalStoryPointsControl.disable();
-        })
-        .unsubscribe();
-    }
+    this.totalStoryPointsControl.setValue(this.totalStoryPoints ?? 0);
+    this.totalStoryPointsControl.disable();
   }
 }

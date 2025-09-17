@@ -32,7 +32,7 @@ import { AddressFieldComponent } from '@shared/feature-address-field';
 import { LoadingStatus } from '@shared/util-store';
 import { Callback } from '@shared/util-typescript';
 import { UserEntity } from '@users/shared/data-access-models';
-import { CreateUserDTO } from '@users/users/data-access-user';
+import { CreateUserDTO, UsersActions } from '@users/users/data-access-user';
 
 import { EditStorypointsComponent } from '../storypoints/edit-storypoints.component';
 
@@ -93,6 +93,7 @@ export class UserDetailsCardComponent implements OnInit {
 
   @ViewChild('snackbar') snackbarTemplateRef!: TemplateRef<unknown>;
 
+  public user: UserEntity | null = null;
   public areFieldsChanged$ = new BehaviorSubject<boolean>(false);
   readonly addressTypes = AddressType;
   @Output() editUser = new EventEmitter<{
@@ -111,6 +112,7 @@ export class UserDetailsCardComponent implements OnInit {
   @Input({ required: true })
   set vm(vm: DetailUsersCardVm) {
     this._vm = vm;
+    this.user = vm.user;
 
     if (vm.user) {
       this.formGroup.patchValue({
@@ -157,6 +159,10 @@ export class UserDetailsCardComponent implements OnInit {
   }
   public onOptionClicked(selectedValue: string) {
     this.formGroup.get('city')?.setValue(selectedValue);
+  }
+  updateStoryPoints(payload: { id: number; totalStoryPoints: number }) {
+    if (!this.user) return;
+    this.store.dispatch(UsersActions.updateStoryPoints(payload));
   }
   private checkChangeFields() {
     this.formGroup.valueChanges

@@ -152,18 +152,15 @@ export const updateStoryPoints$ = createEffect(
     return actions$.pipe(
       ofType(UsersActions.updateStoryPoints),
       withLatestFrom(store.select(selectUsersEntities)),
+      filter(([{ id }, usersEntities]) => !!usersEntities[id]),
       switchMap(([{ id, totalStoryPoints }, usersEntities]) => {
-        const currentUser = usersEntities[id];
-        if (!currentUser) {
-          return of(UsersActions.updateStoryPointsFailure({ error: null }));
-        }
-
+        const currentUser = usersEntities[id]!;
         const updatedUser: Partial<UserEntity> = {
           ...currentUser,
           totalStoryPoints,
         };
 
-        return apiService.updateStoryPoints(id, updatedUser).pipe(
+        return apiService.post<UserEntity, Partial<UserEntity>>(`/users/${id}`, updatedUser).pipe(
           map((user) => UsersActions.updateStoryPointsSuccess({ user })),
           catchError((error) => of(UsersActions.updateStoryPointsFailure({ error }))),
         );
