@@ -1,0 +1,30 @@
+<div *ngIf="folder$ | async as folder" class="head-container">
+  <div class="redirect-title">
+    <button mat-button [routerLink]="['/materials']">
+      <mat-icon>keyboard_backspace</mat-icon>
+    </button>
+    <span class="folder_title">{{ folder.title }}</span>
+  </div>
+  <div class="materials-head">
+    <span class="materials-title">Материалы</span>
+  </div>
+  <div class="add-button">
+    <app-materials-add-button [folderId]="folderId"></app-materials-add-button>
+  </div>
+</div>
+
+<mat-progress-bar *ngIf="loading$ | async" mode="indeterminate"></mat-progress-bar>
+
+<div class="materials">
+  <app-materials-list
+    *ngIf="(loading$ | async) === false && (error$ | async) === null"
+    [materials]="filteredMaterials$ | async"
+    (materialOpened)="openMaterial($event)"
+    (deleteMaterial)="deleteMaterial($event)">
+  </app-materials-list>
+</div>
+
+<div *ngIf="error$ | async as error" class="error-message">
+  <p>{{ error }}</p>
+</div>
+

@@ -1,0 +1,45 @@
+<mat-dialog-content [formGroup]="form" class="dialog-content">
+
+  <h2 mat-dialog-title class="dialog-title">Добавить материал</h2>
+  
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Название</mat-label>
+    <input matInput formControlName="title" placeholder="Введите название">
+    <mat-error *ngIf="form.get('title')?.hasError('required')">
+      Название обязательно
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Ссылка на материал</mat-label>
+    <input matInput formControlName="material_link" placeholder="Введите ссылку">
+    <mat-error *ngIf="form.get('material_link')?.hasError('required')">
+      Ссылка обязательна
+    </mat-error>
+    <mat-error *ngIf="form.get('material_link')?.hasError('typeMismatch')">
+      Ссылка не соответствует выбранному типу материала
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="form-field">
+    <mat-label>Тип материала</mat-label>
+    <mat-select formControlName="type">
+      <mat-option value="video">Видео</mat-option>
+      <mat-option value="pdf">PDF</mat-option>
+      <mat-option value="audio">Аудио</mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('type')?.hasError('required')">
+      Тип материала обязателен
+    </mat-error>
+  </mat-form-field>
+
+  <mat-error *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </mat-error>
+
+  <mat-dialog-actions class="mat-dialog-actions">
+    <button mat-button class="button-cancel" (click)="cancel()">Отмена</button>
+    <button mat-button class="button-save" color="primary" (click)="save()" [disabled]="form.invalid">Сохранить</button>
+  </mat-dialog-actions>
+
+</mat-dialog-content>

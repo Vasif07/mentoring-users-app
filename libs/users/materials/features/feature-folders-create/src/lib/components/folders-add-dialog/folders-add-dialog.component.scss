@@ -1,0 +1,20 @@
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.head-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+button[mat-raised-button] {
+  text-transform: none;
+}
+
+.buttons {
+  justify-content: space-between;
+}

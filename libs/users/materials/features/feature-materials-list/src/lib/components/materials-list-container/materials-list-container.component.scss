@@ -1,0 +1,49 @@
+.materials {
+    padding: 8px;
+}
+
+.head-container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.redirect-title {
+  display: flex;
+  align-items: center; 
+  gap: 10px;
+}
+
+.redirect-title button {
+  padding: 0;
+  min-width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.redirect-title mat-icon {
+  font-size: 30px;
+}
+
+.folder_title {
+  font-size: 30px;
+  line-height: 1;
+}
+
+.materials-head {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.materials-title {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.add-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

@@ -1,0 +1,20 @@
+<div class="head-container">
+  <span class="head-title">Папки</span>
+  <app-folders-add-button></app-folders-add-button>
+</div>
+
+<mat-progress-bar *ngIf="loading$ | async" mode="indeterminate"></mat-progress-bar>
+
+<div class="folders">
+  <app-folders-list
+    *ngIf="(loading$ | async) === false && (error$ | async) === null"
+    [folders]="folders$ | async"
+    (folderOpened)="openFolder($event)"
+    (deleteFolder)="deleteFolder($event)">
+  </app-folders-list>
+</div>
+
+<div *ngIf="error$ | async as error" class="error">
+  Ошибка загрузки папок: {{ error }}
+</div>
+

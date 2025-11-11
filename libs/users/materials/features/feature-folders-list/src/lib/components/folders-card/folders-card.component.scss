@@ -1,0 +1,24 @@
+.folder-card {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 100px;
+}
+
+.folder-actions {
+  display: flex;
+  justify-content:space-between;
+}
+
+.folder-title {
+  margin-top: 5px;
+  font-size: 16px;
+  font-weight: 500;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

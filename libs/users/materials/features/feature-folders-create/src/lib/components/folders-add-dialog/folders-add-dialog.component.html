@@ -1,0 +1,18 @@
+<mat-dialog-content class="dialog-content">
+  <span class="head-title">Создать папку</span>
+  <mat-form-field appearance="fill" class="field">
+    <mat-label>Название папки</mat-label>
+    <input matInput [formControl]="title" placeholder="Введите название" />
+    <mat-error *ngIf="title.hasError('required')">
+      Название обязательно
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions class="buttons">
+    <button mat-button (click)="cancel()">Отмена</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="title.invalid">
+      Создать
+    </button>
+  </mat-dialog-actions>
+</mat-dialog-content>
+

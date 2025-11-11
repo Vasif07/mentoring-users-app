@@ -1,0 +1,13 @@
+<div class="folders-list" *ngIf="folders?.length; else noFolders">
+  <app-folders-card
+    *ngFor="let folder of folders"
+    [folder]="folder"
+    (open)="openFolder(folder)"
+    (delete)="removeFolder(folder)">
+  </app-folders-card>
+</div>
+
+<ng-template #noFolders>
+  <p>Папок пока нет</p>
+</ng-template>
+

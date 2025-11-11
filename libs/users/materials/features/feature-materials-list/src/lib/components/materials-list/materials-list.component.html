@@ -1,0 +1,12 @@
+<div class="materials-list" *ngIf="materials?.length; else noMaterials">
+  <app-materials-card
+    *ngFor="let material of materials"
+    [material]="material"
+    (open)="openMaterial(material)"
+    (delete)="removeMaterial(material)">
+  </app-materials-card>
+</div>
+
+<ng-template #noMaterials>
+  <p>Материалов пока нет</p>
+</ng-template>

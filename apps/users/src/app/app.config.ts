@@ -20,6 +20,7 @@ import { articlesEffects, articlesFeature } from '@users/articles/data-access-ar
 import { commentsEffects, commentsFeature } from '@users/articles/data-access-comment';
 import { backlogEffects, backlogFeature } from '@users/backlog/data-access-backlog';
 import { authEffects, authFeature } from '@users/core/data-access-auth';
+import { MaterialsEffects, MATERIALS_FEATURE_KEY, materialsReducer } from '@users/materials/data-access';
 import { SettingsEffects, settingsFeature } from '@users/settings/data-access-settings';
 import { TasksEffects, tasksFeature } from '@users/tasks/data-access-task';
 import { userEffects, USERS_FEATURE_KEY, usersReducer } from '@users/users/data-access-user';
@@ -48,10 +49,12 @@ export const appConfig: ApplicationConfig = {
       githubEffects,
       backlogEffects,
       SettingsEffects,
+      MaterialsEffects,
     ),
     provideStore({
       router: routerReducer,
       [USERS_FEATURE_KEY]: usersReducer,
+      [MATERIALS_FEATURE_KEY]: materialsReducer,
       [settingsFeature.name]: settingsFeature.reducer,
       [authFeature.name]: authFeature.reducer,
       [articlesFeature.name]: articlesFeature.reducer,

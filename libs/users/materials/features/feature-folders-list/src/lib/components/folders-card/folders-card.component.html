@@ -1,0 +1,11 @@
+<div class="folder-card" (dblclick)="onDoubleClick()">
+  <div class="folder-actions">
+    <mat-icon>folder</mat-icon>
+    <button mat-icon-button color="warn" (click)="onDeleteClick(); $event.stopPropagation()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <div class="folder-title">
+    {{ folder.title }}
+  </div>
+</div>

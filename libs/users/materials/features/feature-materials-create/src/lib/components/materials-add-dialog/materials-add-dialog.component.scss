@@ -1,0 +1,46 @@
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.dialog-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.error {
+  font-size: 16px;
+  text-align: center;
+}
+
+.mat-dialog-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.button-cancel {
+  background-color: #a80000;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 6px 16px;
+}
+
+.button-save {
+  background-color: #006315;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 6px 16px;
+}
